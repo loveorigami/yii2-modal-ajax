@@ -12,11 +12,6 @@ use yii\web\AssetBundle;
 class ModalAsset extends AssetBundle
 {
     /**
-     * @var string
-     */
-    public $sourcePath =  __DIR__ .'/assets';
-
-    /**
      * @inheritdoc
      */
     public $depends = [
@@ -30,4 +25,12 @@ class ModalAsset extends AssetBundle
         'js/kb-modal-ajax.js',
     ];
 
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        $this->sourcePath = __DIR__ . "/assets";
+        parent::init();
+    }
 }
