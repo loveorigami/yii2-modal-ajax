@@ -28,6 +28,13 @@ class ModalAsset extends AssetBundle
     /**
      * @inheritdoc
      */
+    public $css = [
+        'css/modal-colors.css',
+    ];
+
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         $this->sourcePath = __DIR__ . "/assets";

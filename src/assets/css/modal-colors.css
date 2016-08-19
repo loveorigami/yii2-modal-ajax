@@ -1,0 +1,30 @@
+/* CSS used here will be applied after bootstrap.css */
+.header-success .modal-header {
+    font-weight:bold;
+    color: #fff;
+    background-color: #5cb85c;
+}
+
+.header-warning .modal-header {
+    font-weight:bold;
+    color: #fff;
+    background-color: #f0ad4e;
+}
+
+.header-danger .modal-header {
+    font-weight:bold;
+    color: #fff;
+    background-color: #d9534f;
+}
+
+.header-info .modal-header {
+    font-weight:bold;
+    color: #fff;
+    background-color: #5bc0de;
+}
+
+.header-primary .modal-header {
+    font-weight:bold;
+    color: #fff;
+    background-color: #428bca;
+}
