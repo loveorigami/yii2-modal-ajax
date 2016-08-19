@@ -76,7 +76,7 @@
             jQuery(this.element).find('form').off().yiiActiveForm('destroy').remove();
         }
 
-        jQuery(this.element).find('.modal-body').html(form);
+        jQuery(this.element).find('.modal-body').html(html);
 
         var knownScripts = getPageScriptTags();
         var knownCssLinks = getPageCssLinks();
@@ -158,6 +158,7 @@
                 if (contentType.indexOf('html') > -1) {
                     // Assume form contains errors if html
                     this.injectHtml(data);
+                    status = false;
                 }
                 jQuery(this.element).triggerHandler('kbModalSubmit', [data, status, xhr]);
             }
