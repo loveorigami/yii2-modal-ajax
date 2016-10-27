@@ -3,6 +3,8 @@
 namespace lo\widgets\modal;
 
 use yii\bootstrap\Modal as BaseModal;
+use yii\helpers\Json;
+use yii\helpers\Url;
 
 /**
  * Class Modal
@@ -24,6 +26,12 @@ class Modal extends BaseModal
     public $ajaxSubmit = true;
 
     /**
+     * Submit the form via ajax
+     * @var boolean
+     */
+    public $autoClose = false;
+
+    /**
      * @inheritdocs
      */
     public function run()
@@ -32,15 +40,24 @@ class Modal extends BaseModal
         parent::run();
 
         ModalAsset::register($view);
-
         $id = $this->options['id'];
-        $ajaxSubmit = $this->ajaxSubmit ? 'true' : 'false';
-        $js = <<<JS
-        jQuery('#$id').kbModalAjax({
-            url: '{$this->url}',
-            ajaxSubmit: {$ajaxSubmit},
-        });
-JS;
-        $view->registerJs($js);
+
+        $config['ajaxSubmit'] = $this->ajaxSubmit;
+        $config['url'] = is_array($this->url) ? Url::to($this->url) : $this->url;
+
+        $options = Json::encode($config);
+
+        $view->registerJs("jQuery('#$id').kbModalAjax($options);");
+
+        if ($this->autoClose) {
+            $js = "
+            jQuery('#$id').on('kbModalSubmit', function(event, data, status, xhr) {
+                console.log('kbModalSubmit' + status);
+                if(status){
+                    $(this).modal('toggle');
+                }
+            });";
+            $view->registerJs($js);
+        }
     }
 }
