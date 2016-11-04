@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
     "use strict";
 
     var pluginName = 'kbModalAjax';
@@ -33,7 +33,7 @@
         this.init(options);
     };
 
-    ModalAjax.prototype.init = function(options) {
+    ModalAjax.prototype.init = function (options) {
         this.initalRequestUrl = options.url;
         this.ajaxSubmit = options.ajaxSubmit || true;
         jQuery(this.element).on('show.bs.modal', this.shown.bind(this));
@@ -43,7 +43,7 @@
      * Requests the content of the modal and injects it, called after the
      * modal is shown
      */
-    ModalAjax.prototype.shown = function() {
+    ModalAjax.prototype.shown = function () {
         // Clear original html before loading
         jQuery(this.element).find('.modal-body').html('');
 
@@ -53,7 +53,7 @@
             beforeSend: function (xhr, settings) {
                 jQuery(this.element).triggerHandler('kbModalBeforeShow', [xhr, settings]);
             },
-            success: function(data, status, xhr) {
+            success: function (data, status, xhr) {
                 this.injectHtml(data);
                 if (this.ajaxSubmit) {
                     jQuery(this.element).off('submit').on('submit', this.formSubmit.bind(this));
@@ -67,7 +67,7 @@
      * Injects the form of given html into the modal and extecutes css and js
      * @param  {string} html the html to inject
      */
-    ModalAjax.prototype.injectHtml = function(html) {
+    ModalAjax.prototype.injectHtml = function (html) {
         // Find form and inject it
         var form = jQuery(html).filter('form');
 
@@ -141,7 +141,7 @@
     /**
      * Adds event handlers to the form to check for submit
      */
-    ModalAjax.prototype.formSubmit = function() {
+    ModalAjax.prototype.formSubmit = function () {
         var form = jQuery(this.element).find('form');
 
         // Convert form to ajax submit
@@ -153,7 +153,7 @@
             beforeSend: function (xhr, settings) {
                 jQuery(this.element).triggerHandler('kbModalBeforeSubmit', [xhr, settings]);
             },
-            success: function(data, status, xhr) {
+            success: function (data, status, xhr) {
                 var contentType = xhr.getResponseHeader('content-type') || '';
                 if (contentType.indexOf('html') > -1) {
                     // Assume form contains errors if html
@@ -167,10 +167,13 @@
         return false;
     };
 
-    $.fn[pluginName] = function(options) {
+    $.fn[pluginName] = function (options) {
         return this.each(function () {
             if (!$.data(this, pluginName)) {
                 $.data(this, pluginName, new ModalAjax(this, options));
+            } else {
+                $.data(this, pluginName).initalRequestUrl = options.url;
+                //console.log($.data(this, pluginName).initalRequestUrl);
             }
         });
     };

@@ -3,8 +3,8 @@
 namespace lo\widgets\modal;
 
 use yii\bootstrap\Modal as BaseModal;
-use yii\helpers\Json;
 use yii\helpers\Url;
+use yii\web\View;
 
 /**
  * Class Modal
@@ -13,8 +13,22 @@ use yii\helpers\Url;
  */
 class Modal extends BaseModal
 {
+    const MODE_SINGLE = 'id';
+    const MODE_MULTI = 'multi';
+
     /**
-     * The url to request when modal is opened
+     * @var string
+     */
+    public $mode = self::MODE_SINGLE;
+
+    /**
+     * The selector to get url request when modal is opened for multy mode
+     * @var string
+     */
+    public $selector;
+
+    /**
+     * The url to request when modal is opened for single mode
      * @var string
      */
     public $url;
@@ -36,28 +50,78 @@ class Modal extends BaseModal
      */
     public function run()
     {
-        $view = $this->getView();
         parent::run();
-
-        ModalAsset::register($view);
+        /** @var View */
+        $view = $this->getView();
         $id = $this->options['id'];
 
-        $config['ajaxSubmit'] = $this->ajaxSubmit;
-        $config['url'] = is_array($this->url) ? Url::to($this->url) : $this->url;
+        ModalAsset::register($view);
 
-        $options = Json::encode($config);
+        switch ($this->mode) {
+            case self::MODE_SINGLE:
+                $this->registerSingleModal($id, $view);
+                break;
 
-        $view->registerJs("jQuery('#$id').kbModalAjax($options);");
+            case self::MODE_MULTI:
+                $this->registerMultyModal($id, $view);
+                break;
+        }
 
+        $this->registerAutoClose($id, $view);
+    }
+
+    /**
+     * @param $id
+     * @param View $view
+     */
+    protected function registerSingleModal($id, $view)
+    {
+        $url = is_array($this->url) ? Url::to($this->url) : $this->url;
+
+        $view->registerJs("
+            jQuery('#$id').kbModalAjax({
+                url: '$url',
+                ajaxSubmit: $this->ajaxSubmit
+            });
+        ");
+    }
+
+    /**
+     * @param $id
+     * @param View $view
+     */
+    protected function registerMultyModal($id, $view)
+    {
+        $view->registerJs("
+            jQuery('.btn').on('click', function(e) {
+                e.preventDefault();
+                $(this).attr('data-toggle', 'modal');
+                $(this).attr('data-target', '#$id');
+                var url = $(this).attr('href');
+                
+                jQuery('#$id').kbModalAjax({
+                    url: url,
+                    ajaxSubmit: $this->ajaxSubmit
+                });
+            });
+        ");
+    }
+
+    /**
+     * @param $id
+     * @param View $view
+     */
+    protected function registerAutoClose($id, $view)
+    {
         if ($this->autoClose) {
-            $js = "
-            jQuery('#$id').on('kbModalSubmit', function(event, data, status, xhr) {
-                console.log('kbModalSubmit' + status);
-                if(status){
-                    $(this).modal('toggle');
-                }
-            });";
-            $view->registerJs($js);
+            $view->registerJs("
+                jQuery('#$id').on('kbModalSubmit', function(event, data, status, xhr) {
+                    //console.log('kbModalSubmit' + status);
+                    if(status){
+                        $(this).modal('toggle');
+                    }
+                });
+            ");
         }
     }
 }
