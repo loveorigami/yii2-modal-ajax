@@ -4,9 +4,11 @@
   "keywords": [
     "yii2",
     "bootstrap",
-    "modal"
+    "modal",
+    "ajax-modal"
   ],
   "homepage": "https://github.com/loveorigami/yii2-modal-ajax",
+  "version": "2.0",
   "type": "yii2-extension",
   "license": "MIT",
   "authors": [

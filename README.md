@@ -67,16 +67,60 @@ public function actionCreate()
 
 ### View
 ```php
-use lo\widgets\modal\Modal;
+use lo\widgets\modal\AjaxModal;
 
-Modal::begin([
+echo AjaxModal::widget([
     'id' => 'createCompany',
+    'header' => 'Create Company',
+    'toggleButton' => [
+        'label' => 'New Company',
+        'class' => 'btn btn-primary pull-right'
+    ],
     'url' => Url::to(['/partner/default/create']), // Ajax view with form to load
     'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
     // ... any other yii2 bootstrap modal option you need
 ]);
-Modal::end();
 ```
+
+## Usage in grid 
+
+### Index View - Create
+```php
+use lo\widgets\modal\AjaxModal;
+
+echo AjaxModal::widget([
+    'id' => 'createCompany',
+    'header' => 'Create Company',
+    'toggleButton' => [
+        'label' => 'New Company',
+        'class' => 'btn btn-primary pull-right'
+    ],
+    'url' => Url::to(['/partner/default/create']), // Ajax view with form to load
+    'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
+
+    'options' => ['class' => 'header-primary'],
+    'autoClose' => true,
+    'pjaxContainer' => '#grid-company-pjax'
+
+]);
+```
+
+### Index View - Update
+```php
+use lo\widgets\modal\AjaxModal;
+
+echo AjaxModal::widget([
+    'id' => 'updateCompany',
+    'selector' => 'a.btn' // all buttons in grid view with href attribute
+    'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
+
+    'options' => ['class' => 'header-primary'],
+    'autoClose' => true,
+    'pjaxContainer' => '#grid-company-pjax'
+
+]);
+```
+
 
 ## Plugin Events
 
