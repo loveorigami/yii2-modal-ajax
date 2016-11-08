@@ -70,9 +70,9 @@ public function actionCreate()
 
 ### View
 ```php
-use lo\widgets\modal\AjaxModal;
+use lo\widgets\modal\ModalAjax;
 
-echo AjaxModal::widget([
+echo ModalAjax::widget([
     'id' => 'createCompany',
     'header' => 'Create Company',
     'toggleButton' => [
@@ -89,9 +89,9 @@ echo AjaxModal::widget([
 
 ### Index View - Create
 ```php
-use lo\widgets\modal\AjaxModal;
+use lo\widgets\modal\ModalAjax;
 
-echo AjaxModal::widget([
+echo ModalAjax::widget([
     'id' => 'createCompany',
     'header' => 'Create Company',
     'toggleButton' => [
@@ -110,9 +110,9 @@ echo AjaxModal::widget([
 
 ### Index View - Update
 ```php
-use lo\widgets\modal\AjaxModal;
+use lo\widgets\modal\ModalAjax;
 
-echo AjaxModal::widget([
+echo ModalAjax::widget([
     'id' => 'updateCompany',
     'selector' => 'a.btn' // all buttons in grid view with href attribute
     'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
