@@ -4,6 +4,7 @@ namespace lo\widgets\modal;
 
 use yii\base\InvalidConfigException;
 use yii\bootstrap\Modal;
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\View;
 
@@ -51,6 +52,24 @@ class ModalAjax extends Modal
      * @var string
      */
     protected $mode = self::MODE_SINGLE;
+
+    /**
+     * Renders the header HTML markup of the modal
+     * @return string the rendering result
+     */
+    protected function renderHeader()
+    {
+        $button = $this->renderCloseButton();
+        if ($button !== null) {
+            $this->header = $button . "\n<span>" . $this->header."</span>\n";
+        }
+        if ($this->header !== null) {
+            Html::addCssClass($this->headerOptions, ['widget' => 'modal-header']);
+            return Html::tag('div', "\n" . $this->header . "\n", $this->headerOptions);
+        } else {
+            return null;
+        }
+    }
 
     /**
      * @inheritdocs
@@ -122,9 +141,11 @@ class ModalAjax extends Modal
                 $(this).attr('data-target', '#$id');
                 
                 var bs_url = $(this).attr('href');
+                var title = $(this).attr('title');
                 
-                //var bs_title = $(this).attr('title');
-                //jQuery('#$id').find('.modal-header').html(bs_title);
+                if (!title) title = ' ';
+                
+                jQuery('#$id').find('.modal-header span').html(title);
                 
                 jQuery('#$id').kbModalAjax({
                     url: bs_url,
