@@ -174,6 +174,7 @@
                 $.data(this, pluginName, new ModalAjax(this, options));
             } else {
                 $.data(this, pluginName).initalRequestUrl = options.url;
+                $.data(this, pluginName).selector = options.selector || null;
                 //console.log($.data(this, pluginName).initalRequestUrl);
             }
         });
