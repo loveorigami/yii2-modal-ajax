@@ -59,7 +59,7 @@
                 if (this.ajaxSubmit) {
                     jQuery(this.element).off('submit').on('submit', this.formSubmit.bind(this));
                 }
-                jQuery(this.element).triggerHandler('kbModalShow', [data, status, xhr]);
+                jQuery(this.element).triggerHandler('kbModalShow', [data, status, xhr, this.selector]);
             }
         });
     };

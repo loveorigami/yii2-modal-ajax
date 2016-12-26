@@ -126,6 +126,11 @@ echo ModalAjax::widget([
     'options' => ['class' => 'header-primary'],
     'pjaxContainer' => '#grid-company-pjax',
     'events'=>[
+        ModalAjax::EVENT_MODAL_SHOW => new \yii\web\JsExpression("
+            function(event, data, status, xhr, selector) {
+                selector.addClass('warning');
+            }
+       "),
         ModalAjax::EVENT_MODAL_SUBMIT => new \yii\web\JsExpression("
             function(event, data, status, xhr, selector) {
                 if(status){
@@ -165,9 +170,10 @@ This event is triggered after the view for the form is successful loaded. Additi
 - `data`: _object_, the data object sent via server's response.
 - `status`: _string_, the jQuery AJAX success text status.
 - `xhr`: _XMLHttpRequest_, the jQuery XML Http Request object used for this transaction.
+- `selector`: _object_, the jQuery selector for embed logic after submit in multi Modal.
 
 ```js
-$('#createCompany').on('kbModalShow', function(event, data, status, xhr) {
+$('#createCompany').on('kbModalShow', function(event, data, status, xhr, selector) {
     console.log('kbModalShow');
 });
 ```
