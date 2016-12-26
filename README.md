@@ -87,7 +87,7 @@ echo ModalAjax::widget([
 
 ## Usage in grid 
 
-### Index View - Create
+### Index View - Create (Single Modal Mode)
 ```php
 use lo\widgets\modal\ModalAjax;
 
@@ -103,12 +103,18 @@ echo ModalAjax::widget([
 
     'options' => ['class' => 'header-primary'],
     'autoClose' => true,
-    'pjaxContainer' => '#grid-company-pjax'
+    'pjaxContainer' => '#grid-company-pjax',
 
 ]);
 ```
 
-### Index View - Update
+### Index View - Update (Multi Modal Mode)
+Grid example with data-scenario
+```html
+<a class="btn" href="/site/update?id=10" title="Edit ID-10" data-scenario="hello">Hello</a>
+<a class="btn" href="/site/update?id=20" title="Edit ID-20" data-scenario="goodbye">Goodbye</a>
+```
+Modal Ajax with events
 ```php
 use lo\widgets\modal\ModalAjax;
 
@@ -118,8 +124,21 @@ echo ModalAjax::widget([
     'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
 
     'options' => ['class' => 'header-primary'],
-    'autoClose' => true,
-    'pjaxContainer' => '#grid-company-pjax'
+    'pjaxContainer' => '#grid-company-pjax',
+    'events'=>[
+        ModalAjax::EVENT_MODAL_SUBMIT => new \yii\web\JsExpression("
+            function(event, data, status, xhr, selector) {
+                if(status){
+                    if(selector.data('scenario') == 'hello'){
+                        alert('hello');
+                    } else {
+                        alert('goodbye');
+                    }
+                    $(this).modal('toggle');
+                }
+            }
+        ")
+    ]
 
 ]);
 ```
@@ -130,7 +149,7 @@ echo ModalAjax::widget([
 On top if the basic twitter bootstrap modal events the following events are triggered
 
 
-### `kbModalBeforeShow`
+### `kbModalBeforeShow` (ModalAjax::EVENT_BEFORE_SHOW)
 This event is triggered right before the view for the form is loaded. Additional parameters available with this event are:
 - `xhr`: _XMLHttpRequest_, the jQuery XML Http Request object used for this transaction.
 - `settings`: _object_, the jQuery ajax settings for this transaction.
@@ -141,7 +160,7 @@ $('#createCompany').on('kbModalBeforeShow', function(event, xhr, settings) {
 });
 ```
 
-### `kbModalShow`
+### `kbModalShow` (ModalAjax::EVENT_MODAL_SHOW)
 This event is triggered after the view for the form is successful loaded. Additional parameters available with this event are:
 - `data`: _object_, the data object sent via server's response.
 - `status`: _string_, the jQuery AJAX success text status.
@@ -153,7 +172,7 @@ $('#createCompany').on('kbModalShow', function(event, data, status, xhr) {
 });
 ```
 
-### `kbModalBeforeSubmit`
+### `kbModalBeforeSubmit` (ModalAjax::EVENT_BEFORE_SUBMIT)
 This event is triggered right before the form is submitted. Additional parameters available with this event are:
 - `xhr`: _XMLHttpRequest_, the jQuery XML Http Request object used for this transaction.
 - `settings`: _object_, the jQuery ajax settings for this transaction.
@@ -164,14 +183,15 @@ $('#createCompany').on('kbModalBeforeSubmit', function(event, xhr, settings) {
 });
 ```
 
-### `kbModalSubmit`
+### `kbModalSubmit` (ModalAjax::EVENT_MODAL_SUBMIT)
 This event is triggered after the form is successful submitted. Additional parameters available with this event are:
 - `data`: _object_, the data object sent via server's response.
 - `status`: _string_, the jQuery AJAX success text status.
 - `xhr`: _XMLHttpRequest_, the jQuery XML Http Request object used for this transaction.
+- `selector`: _object_, the jQuery selector for embed logic after submit in multi Modal.
 
 ```js
-$('#createCompany').on('kbModalSubmit', function(event, data, status, xhr) {
+$('#createCompany').on('kbModalSubmit', function(event, data, status, xhr, selector) {
     console.log('kbModalSubmit');
     // You may call pjax reloads here
 });

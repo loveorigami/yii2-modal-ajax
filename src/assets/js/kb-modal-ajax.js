@@ -34,6 +34,7 @@
     };
 
     ModalAjax.prototype.init = function (options) {
+        this.selector = options.selector || null;
         this.initalRequestUrl = options.url;
         this.ajaxSubmit = options.ajaxSubmit || true;
         jQuery(this.element).on('show.bs.modal', this.shown.bind(this));
@@ -146,7 +147,7 @@
 
         // Convert form to ajax submit
         jQuery.ajax({
-            type: form.attr('method'),
+            method: form.attr('method'),
             url: form.attr('action'),
             data: form.serialize(),
             context: this,
@@ -160,7 +161,7 @@
                     this.injectHtml(data);
                     status = false;
                 }
-                jQuery(this.element).triggerHandler('kbModalSubmit', [data, status, xhr]);
+                jQuery(this.element).triggerHandler('kbModalSubmit', [data, status, xhr, this.selector]);
             }
         });
 

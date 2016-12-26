@@ -6,6 +6,7 @@ use yii\base\InvalidConfigException;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\JsExpression;
 use yii\web\View;
 
 /**
@@ -17,6 +18,19 @@ class ModalAjax extends Modal
 {
     const MODE_SINGLE = 'id';
     const MODE_MULTI = 'multi';
+
+    /**
+     * events
+     */
+    const EVENT_BEFORE_SHOW = 'kbModalBeforeShow';
+    const EVENT_MODAL_SHOW = 'kbModalShow';
+    const EVENT_BEFORE_SUBMIT = 'kbModalBeforeSubmit';
+    const EVENT_MODAL_SUBMIT = 'kbModalSubmit';
+
+    /**
+     * @var array
+     */
+    public $events = [];
 
     /**
      * The selector to get url request when modal is opened for multy mode
@@ -61,7 +75,7 @@ class ModalAjax extends Modal
     {
         $button = $this->renderCloseButton();
         if ($button !== null) {
-            $this->header = $button . "\n<span>" . $this->header."</span>\n";
+            $this->header = $button . "\n<span>" . $this->header . "</span>\n";
         }
         if ($this->header !== null) {
             Html::addCssClass($this->headerOptions, ['widget' => 'modal-header']);
@@ -108,8 +122,11 @@ class ModalAjax extends Modal
                 break;
         }
 
-        $this->registerAutoClose($id, $view);
-        $this->registerPjaxReload($id, $view);
+        if (!isset($this->events[self::EVENT_MODAL_SUBMIT])) {
+            $this->defaultSubmitEvent();
+        }
+
+        $this->registerEvents($id, $view);
     }
 
     /**
@@ -148,6 +165,7 @@ class ModalAjax extends Modal
                 jQuery('#$id').find('.modal-header span').html(title);
                 
                 jQuery('#$id').kbModalAjax({
+                    selector: $(this),
                     url: bs_url,
                     ajaxSubmit: $this->ajaxSubmit
                 });
@@ -156,38 +174,47 @@ class ModalAjax extends Modal
     }
 
     /**
-     * @param $id
-     * @param View $view
+     * register pjax event
      */
-    protected function registerAutoClose($id, $view)
+    protected function defaultSubmitEvent()
     {
+        $expression = [];
+
         if ($this->autoClose) {
-            $view->registerJs("
-                jQuery('#$id').on('kbModalSubmit', function(event, data, status, xhr) {
-                    if(status){
-                        $(this).modal('toggle');
-                    }
-                });
-            ");
+            $expression[] = "$(this).modal('toggle');";
         }
+
+        if ($this->pjaxContainer) {
+            $expression[] = "$.pjax.reload({container : '$this->pjaxContainer'});";
+        }
+
+        $script = implode("\r\n", $expression);
+
+        $this->events = [
+            self::EVENT_MODAL_SUBMIT => new JsExpression("
+                function(event, data, status, xhr) {
+                    if(status){
+                        $script
+                    }
+                }
+            ")
+        ];
     }
 
     /**
      * @param $id
      * @param View $view
      */
-    protected function registerPjaxReload($id, $view)
+    protected function registerEvents($id, $view)
     {
-        if ($this->pjaxContainer) {
-            $view->registerJs("
-                jQuery('#$id').on('kbModalSubmit', function(event, data, status, xhr) {
-                    if(status){
-                        $.pjax.reload({
-                            container : '$this->pjaxContainer'
-                        });
-                    }
-                });
-            ");
+        $js = [];
+        foreach ($this->events as $event => $expression) {
+            $js[] = ".on('$event', $expression)";
+        }
+
+        if ($js) {
+            $script = "jQuery('#$id')" . implode("\r\n", $js);
+            $view->registerJs($script);
         }
     }
 }
