@@ -120,7 +120,7 @@ use lo\widgets\modal\ModalAjax;
 
 echo ModalAjax::widget([
     'id' => 'updateCompany',
-    'selector' => 'a.btn' // all buttons in grid view with href attribute
+    'selector' => 'a.btn', // all buttons in grid view with href attribute
     'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
 
     'options' => ['class' => 'header-primary'],
