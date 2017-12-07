@@ -91,9 +91,6 @@ class ModalAjax extends Modal
     public function init()
     {
         parent::init();
-        if (!$this->url && !$this->selector) {
-            throw new InvalidConfigException('Not specified property "Url" or "Selector"');
-        }
 
         if ($this->selector) {
             $this->mode = self::MODE_MULTI;
@@ -106,11 +103,16 @@ class ModalAjax extends Modal
     public function run()
     {
         parent::run();
+
         /** @var View */
         $view = $this->getView();
         $id = $this->options['id'];
 
         ModalAjaxAsset::register($view);
+
+        if (!$this->url && !$this->selector) {
+            return;
+        }
 
         switch ($this->mode) {
             case self::MODE_SINGLE:
@@ -140,6 +142,7 @@ class ModalAjax extends Modal
         $view->registerJs("
             jQuery('#$id').kbModalAjax({
                 url: '$url',
+                size:'sm',
                 ajaxSubmit: $this->ajaxSubmit
             });
         ");

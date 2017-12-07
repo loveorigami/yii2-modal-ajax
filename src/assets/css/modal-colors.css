@@ -1,30 +1,286 @@
 /* CSS used here will be applied after bootstrap.css */
 .header-success .modal-header {
-    font-weight:bold;
+    font-weight: bold;
     color: #fff;
     background-color: #5cb85c;
 }
 
 .header-warning .modal-header {
-    font-weight:bold;
+    font-weight: bold;
     color: #fff;
     background-color: #f0ad4e;
 }
 
 .header-danger .modal-header {
-    font-weight:bold;
+    font-weight: bold;
     color: #fff;
     background-color: #d9534f;
 }
 
 .header-info .modal-header {
-    font-weight:bold;
+    font-weight: bold;
     color: #fff;
     background-color: #5bc0de;
 }
 
 .header-primary .modal-header {
-    font-weight:bold;
+    font-weight: bold;
     color: #fff;
     background-color: #428bca;
+}
+
+/* Sliding left modal and fill in modal & stick-up modal */
+@media (min-width: 768px) {
+    .modal-xl {
+        width: 90%;
+        max-width: 1200px;
+    }
+}
+
+.modal-transparent {
+    background: transparent;
+}
+
+.modal-transparent .modal-body, .modal-transparent .modal-content, .modal-transparent .modal-header, .modal-transparent .footer {
+    background: transparent;
+}
+
+.modal-transparent .modal-header, .modal-transparent .modal-footer {
+    border: 0 !important;
+}
+
+.modal-transparent .close {
+    opacity: 1;
+    color: red;
+    font-size: xx-large;
+}
+
+.modal.fade.stick-up .modal-dialog {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+    -ms-transform: translate(0, -100%);
+    margin-top: -5px;
+}
+
+.modal.fade.stick-up.in .modal-dialog {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -ms-transform: translate(0, 0);
+}
+
+.modal.fade.slide-up {
+    height: 100%;
+    top: auto;
+}
+
+.modal.fade.slide-up.in .modal-dialog {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -ms-transform: translate(0, 0);
+    margin-top: -5px;
+}
+
+.modal.fade.slide-up.disable-scroll {
+    overflow: hidden;
+}
+
+.modal.fade.slide-up .modal-dialog {
+    display: table;
+    height: 100%;
+    -webkit-transform: translate3d(0, 75%, 0);
+    transform: translate3d(0, 75%, 0);
+    -ms-transform: translate(0, 75%);
+}
+
+.modal.fade.slide-up .modal-content-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.modal.fade.center-scale .modal-dialog {
+    display: table;
+    height: 100%;
+}
+
+.modal.fade.center-scale .modal-content {
+    display: table-cell;
+    vertical-align: middle;
+    border: 0;
+    background: transparent;
+}
+
+.modal.fade.center-scale .modal-content .modal-header {
+    border-bottom: 0px;
+}
+
+.modal.fade.center-scale.in .modal-dialog {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+}
+
+.modal.fade.center-scale .modal-dialog {
+    opacity: 0;
+    -webkit-transform: scale(0.6);
+    -ms-transform: scale(0.6);
+    transform: scale(0.6);
+}
+
+.modal.fade.fill-in {
+    background-color: rgba(255, 255, 255, 0);
+    -webkit-transition: background-color 0.3s;
+    transition: background-color 0.3s;
+}
+
+.modal.fade.fill-in > .close {
+    margin-top: 20px;
+    margin-right: 20px;
+    opacity: 0.6;
+}
+
+.modal.fade.fill-in > .close > i {
+    font-size: 16px;
+}
+
+.modal.fade.fill-in .modal-dialog {
+    display: table;
+    height: 100%;
+}
+
+.modal.fade.fill-in .modal-content {
+    display: table-cell;
+    vertical-align: middle;
+    border: 0;
+    background: transparent;
+}
+
+.modal.fade.fill-in .modal-content .modal-header {
+    border-bottom: 0px;
+}
+
+.modal.fade.fill-in.in {
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+.modal.fade.fill-in.in .modal-dialog {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+}
+
+.modal.fade.fill-in .modal-dialog {
+    opacity: 0;
+    -webkit-transform: scale(0.6);
+    -ms-transform: scale(0.6);
+    transform: scale(0.6);
+}
+
+.modal.fade.slide-right .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 10px;
+    z-index: 10;
+}
+
+.modal.fade.slide-right.in .modal-dialog {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -ms-transform: translate(0, 0);
+}
+
+.modal.fade.slide-right .modal-dialog {
+    position: absolute;
+    right: 0;
+    margin: 0;
+    height: 100%;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+    -ms-transform: translate(100%, 0);
+}
+
+.modal.fade.slide-right .modal-dialog .modal-content-wrapper {
+    height: 100%;
+}
+
+.modal.fade.slide-right .modal-dialog .modal-content {
+    height: 100%;
+}
+
+.modal.fade.slide-right .modal-dialog .modal-body {
+    background-color: #fff;
+}
+
+.modal.fade.slide-right .modal-content {
+    border-radius: 0px;
+}
+
+.fill-in-modal .modal-backdrop {
+    background-color: transparent;
+}
+
+.modal-backdrop {
+    opacity: 0;
+    -webkit-transition: opacity 0.2s linear;
+    transition: opacity 0.2s linear;
+}
+
+.modal-backdrop.in {
+    opacity: 0.30;
+}
+
+.modal.fade.stick-up .modal-dialog {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+    -ms-transform: translate(0, -100%);
+    margin-top: -5px;
+}
+
+.modal.fade.stick-up.in .modal-dialog {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -ms-transform: translate(0, 0);
+}
+
+@media (min-width: 768px) {
+    .modal.stick-up .modal-dialog {
+        margin: -5px auto;
+    }
+}
+
+/* Responsive Handlers: Modals
+------------------------------------
+*/
+@media (max-width: 768px) {
+    .modal.fill-in .modal-dialog {
+        width: calc(100% - 20px);
+    }
+
+    .modal.slide-up .modal-dialog {
+        width: calc(100% - 20px);
+    }
+}
+
+@media (min-width: 768px) {
+    .modal.stick-up .modal-dialog {
+        margin: -5px auto;
+    }
+
+    .modal.slide-up .modal-dialog {
+        margin: 0 auto;
+    }
+
+    .modal.fill-in .modal-dialog {
+        margin: 0 auto;
+    }
+
+    .modal .modal-content {
+        box-shadow: none;
+    }
+
+    .modal-open .select2-dropdown {
+        z-index: 9999;
+    }
 }

@@ -15,6 +15,7 @@ class ModalAjaxAsset extends AssetBundle
      * @inheritdoc
      */
     public $depends = [
+        'yii\web\JqueryAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
 
@@ -22,7 +23,7 @@ class ModalAjaxAsset extends AssetBundle
      * @inheritdoc
      */
     public $js = [
-        'js/kb-modal-ajax.js',
+        'js/kb-modal-ajax.js'
     ];
 
     /**
