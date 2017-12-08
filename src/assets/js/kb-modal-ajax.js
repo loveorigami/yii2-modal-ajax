@@ -180,3 +180,22 @@
         });
     };
 })(jQuery);
+
+/**
+ * It use for events for adding url query params
+ *  for example:
+ *  $('#modalID').on('kbModalBeforeShow', function(event, xhr, settings) {
+        settings['url'] = modalUrl(settings['url'], {'foo':21});
+    }).modal('show');
+ * @param url
+ * @param json
+ * @returns {*}
+ */
+function modalUrl(url, json) {
+    var mUrl = url;
+    mUrl += ((mUrl.indexOf('?') == -1) ? '?' : '&');
+    if (json) {
+        mUrl += $.param(json);
+    }
+    return mUrl;
+}
