@@ -31,7 +31,7 @@
     function ModalAjax(element, options) {
         this.element = element;
         this.init(options);
-    };
+    }
 
     ModalAjax.prototype.init = function (options) {
         this.selector = options.selector || null;
@@ -45,21 +45,28 @@
      * modal is shown
      */
     ModalAjax.prototype.shown = function () {
+
+        var self = this;
+
+        if (jQuery(this.element).hasClass('in')) {
+            return self;
+        }
+
         // Clear original html before loading
-        jQuery(this.element).find('.modal-body').html('');
+        jQuery(this.element).find('.modal-body').html('<div class="modal-ajax-loader"></div>');
 
         jQuery.ajax({
             url: this.initalRequestUrl,
             context: this,
             beforeSend: function (xhr, settings) {
-                jQuery(this.element).triggerHandler('kbModalBeforeShow', [xhr, settings]);
+                jQuery(self.element).triggerHandler('kbModalBeforeShow', [xhr, settings]);
             },
             success: function (data, status, xhr) {
                 this.injectHtml(data);
                 if (this.ajaxSubmit) {
-                    jQuery(this.element).off('submit').on('submit', this.formSubmit.bind(this));
+                    jQuery(self.element).off('submit').on('submit', this.formSubmit.bind(this));
                 }
-                jQuery(this.element).triggerHandler('kbModalShow', [data, status, xhr, this.selector]);
+                jQuery(self.element).triggerHandler('kbModalShow', [data, status, xhr, this.selector]);
             }
         });
     };
@@ -70,7 +77,7 @@
      */
     ModalAjax.prototype.injectHtml = function (html) {
         // Find form and inject it
-        var form = jQuery(html).filter('form');
+        //var form = jQuery(html).filter('form');
 
         // Remove existing forms
         if (jQuery(this.element).find('form').length > 0) {
@@ -144,7 +151,7 @@
      */
     ModalAjax.prototype.formSubmit = function () {
         var form = jQuery(this.element).find('form');
-
+        var self = this;
         // Convert form to ajax submit
         jQuery.ajax({
             method: form.attr('method'),
@@ -152,7 +159,7 @@
             data: form.serialize(),
             context: this,
             beforeSend: function (xhr, settings) {
-                jQuery(this.element).triggerHandler('kbModalBeforeSubmit', [xhr, settings]);
+                jQuery(self.element).triggerHandler('kbModalBeforeSubmit', [xhr, settings]);
             },
             success: function (data, status, xhr) {
                 var contentType = xhr.getResponseHeader('content-type') || '';
@@ -161,7 +168,7 @@
                     this.injectHtml(data);
                     status = false;
                 }
-                jQuery(this.element).triggerHandler('kbModalSubmit', [data, status, xhr, this.selector]);
+                jQuery(self.element).triggerHandler('kbModalSubmit', [data, status, xhr, this.selector]);
             }
         });
 
@@ -193,7 +200,7 @@
  */
 function modalUrl(url, json) {
     var mUrl = url;
-    mUrl += ((mUrl.indexOf('?') == -1) ? '?' : '&');
+    mUrl += ((mUrl.indexOf('?') === -1) ? '?' : '&');
     if (json) {
         mUrl += $.param(json);
     }

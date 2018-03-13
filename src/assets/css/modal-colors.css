@@ -29,6 +29,45 @@
     background-color: #428bca;
 }
 
+.modal-ajax-loader {
+    border: 5px solid #f3f3f3;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    border-top: 5px solid #555;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin: auto;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
 /* Sliding left modal and fill in modal & stick-up modal */
 @media (min-width: 768px) {
     .modal-xl {
@@ -110,7 +149,7 @@
 }
 
 .modal.fade.center-scale .modal-content .modal-header {
-    border-bottom: 0px;
+    border-bottom: 0;
 }
 
 .modal.fade.center-scale.in .modal-dialog {
@@ -156,7 +195,7 @@
 }
 
 .modal.fade.fill-in .modal-content .modal-header {
-    border-bottom: 0px;
+    border-bottom: 0;
 }
 
 .modal.fade.fill-in.in {
@@ -214,7 +253,7 @@
 }
 
 .modal.fade.slide-right .modal-content {
-    border-radius: 0px;
+    border-radius: 0;
 }
 
 .fill-in-modal .modal-backdrop {
