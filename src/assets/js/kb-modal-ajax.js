@@ -152,27 +152,53 @@
     ModalAjax.prototype.formSubmit = function () {
         var form = jQuery(this.element).find('form');
         var self = this;
-        // Convert form to ajax submit
-        jQuery.ajax({
-            method: form.attr('method'),
-            url: form.attr('action'),
-            data: form.serialize(),
-            context: this,
-            beforeSend: function (xhr, settings) {
-                jQuery(self.element).triggerHandler('kbModalBeforeSubmit', [xhr, settings]);
-            },
-            success: function (data, status, xhr) {
-                var contentType = xhr.getResponseHeader('content-type') || '';
-                if (contentType.indexOf('html') > -1) {
-                    // Assume form contains errors if html
-                    this.injectHtml(data);
-                    status = false;
+        if (form.attr('method') !== 'GET' && window.FormData !== undefined) {
+
+            // Convert form to ajax submit
+            jQuery.ajax({
+                method: form.attr('method'),
+                url: form.attr('action'),
+                data: new FormData(form[0]),
+                processData: false,
+                contentType: false,
+                context: this,
+                beforeSend: function (xhr, settings) {
+                    jQuery(self.element).triggerHandler('kbModalBeforeSubmit', [xhr, settings]);
+                },
+                success: function (data, status, xhr) {
+                    var contentType = xhr.getResponseHeader('content-type') || '';
+                    if (contentType.indexOf('html') > -1) {
+                        // Assume form contains errors if html
+                        this.injectHtml(data);
+                        status = false;
+                    }
+                    jQuery(self.element).triggerHandler('kbModalSubmit', [data, status, xhr, this.selector]);
                 }
-                jQuery(self.element).triggerHandler('kbModalSubmit', [data, status, xhr, this.selector]);
-            }
-        });
+            });
+        } else {
+            // Convert form to ajax submit
+            jQuery.ajax({
+                method: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                context: this,
+                beforeSend: function (xhr, settings) {
+                    jQuery(self.element).triggerHandler('kbModalBeforeSubmit', [xhr, settings]);
+                },
+                success: function (data, status, xhr) {
+                    var contentType = xhr.getResponseHeader('content-type') || '';
+                    if (contentType.indexOf('html') > -1) {
+                        // Assume form contains errors if html
+                        this.injectHtml(data);
+                        status = false;
+                    }
+                    jQuery(self.element).triggerHandler('kbModalSubmit', [data, status, xhr, this.selector]);
+                }
+            });
+        }
 
         return false;
+
     };
 
     $.fn[pluginName] = function (options) {

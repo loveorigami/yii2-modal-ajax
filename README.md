@@ -109,11 +109,7 @@ echo ModalAjax::widget([
 ```
 
 ### Index View - Update (Multi Modal Mode)
-Grid example with data-scenario
-```html
-<a class="btn" href="/site/update?id=10" title="Edit ID-10" data-scenario="hello">Hello</a>
-<a class="btn" href="/site/update?id=20" title="Edit ID-20" data-scenario="goodbye">Goodbye</a>
-```
+
 Modal Ajax with events
 ```php
 use lo\widgets\modal\ModalAjax;
@@ -121,7 +117,6 @@ use lo\widgets\modal\ModalAjax;
 echo ModalAjax::widget([
     'id' => 'updateCompany',
     'selector' => 'a.btn', // all buttons in grid view with href attribute
-    'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
 
     'options' => ['class' => 'header-primary'],
     'pjaxContainer' => '#grid-company-pjax',
@@ -146,6 +141,27 @@ echo ModalAjax::widget([
     ]
 
 ]);
+
+//Grid example with data-scenario
+
+Pjax::begin([
+    'id' => 'grid-company-pjax',
+    'timeout' => 5000,
+]); 
+
+echo GridView::widget([
+    'dataProvider' => $dataProvider,
+    'columns' => [
+	      ......................
+		// Action buttons  
+		// <a class="btn" href="/site/update?id=10" title="Edit ID-10" data-scenario="hello">Hello</a>
+		// <a class="btn" href="/site/update?id=20" title="Edit ID-20" data-scenario="goodbye">Goodbye</a>
+          ......................
+    ],
+]); 
+
+Pjax::end();
+
 ```
 
 
