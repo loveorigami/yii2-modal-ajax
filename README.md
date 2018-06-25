@@ -100,7 +100,7 @@ echo ModalAjax::widget([
     ],
     'url' => Url::to(['/partner/default/create']), // Ajax view with form to load
     'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
-
+    'size' => ModalAjax::SIZE_LARGE,
     'options' => ['class' => 'header-primary'],
     'autoClose' => true,
     'pjaxContainer' => '#grid-company-pjax',
