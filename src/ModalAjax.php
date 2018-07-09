@@ -11,8 +11,9 @@ use yii\web\View;
 
 /**
  * Class ModalAjax
+ *
  * @package lo\widgets\modal
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class ModalAjax extends Modal
 {
@@ -34,30 +35,35 @@ class ModalAjax extends Modal
 
     /**
      * The selector to get url request when modal is opened for multy mode
+     *
      * @var string
      */
     public $selector;
 
     /**
      * The url to request when modal is opened for single mode
+     *
      * @var string
      */
     public $url;
 
     /**
      * reload pjax container after ajaxSubmit
+     *
      * @var string
      */
     public $pjaxContainer;
 
     /**
      * Submit the form via ajax
+     *
      * @var boolean
      */
     public $ajaxSubmit = true;
 
     /**
      * Submit the form via ajax
+     *
      * @var boolean
      */
     public $autoClose = false;
@@ -69,6 +75,7 @@ class ModalAjax extends Modal
 
     /**
      * Renders the header HTML markup of the modal
+     *
      * @return string the rendering result
      */
     protected function renderHeader()
@@ -79,6 +86,7 @@ class ModalAjax extends Modal
         }
         if ($this->header !== null) {
             Html::addCssClass($this->headerOptions, ['widget' => 'modal-header']);
+
             return Html::tag('div', "\n" . $this->header . "\n", $this->headerOptions);
         } else {
             return null;
@@ -132,7 +140,7 @@ class ModalAjax extends Modal
     }
 
     /**
-     * @param $id
+     * @param      $id
      * @param View $view
      */
     protected function registerSingleModal($id, $view)
@@ -149,7 +157,7 @@ class ModalAjax extends Modal
     }
 
     /**
-     * @param $id
+     * @param      $id
      * @param View $view
      */
     protected function registerMultyModal($id, $view)
@@ -193,19 +201,17 @@ class ModalAjax extends Modal
 
         $script = implode("\r\n", $expression);
 
-        $this->events = [
-            self::EVENT_MODAL_SUBMIT => new JsExpression("
+        $this->events[self::EVENT_MODAL_SUBMIT] = new JsExpression("
                 function(event, data, status, xhr) {
                     if(status){
                         $script
                     }
                 }
-            ")
-        ];
+            ");
     }
 
     /**
-     * @param $id
+     * @param      $id
      * @param View $view
      */
     protected function registerEvents($id, $view)
