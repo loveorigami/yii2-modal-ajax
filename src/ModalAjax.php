@@ -151,7 +151,7 @@ class ModalAjax extends Modal
             jQuery('#$id').kbModalAjax({
                 url: '$url',
                 size:'sm',
-                ajaxSubmit: $this->ajaxSubmit
+                ajaxSubmit: ".($this->ajaxSubmit ? "true" : "false")."
             });
         ");
     }
