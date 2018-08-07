@@ -8,7 +8,7 @@
     "ajax-modal"
   ],
   "homepage": "https://github.com/loveorigami/yii2-modal-ajax",
-  "version": "3.4",
+  "version": "3.5",
   "type": "yii2-extension",
   "license": "MIT",
   "authors": [
