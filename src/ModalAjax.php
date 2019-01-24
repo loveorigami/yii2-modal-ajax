@@ -55,6 +55,13 @@ class ModalAjax extends Modal
     public $pjaxContainer;
 
     /**
+     * timeout in miliseconds for pjax call
+     *
+     * @var string
+     */
+    public $pjaxTimeout = 1000;
+
+    /**
      * Submit the form via ajax
      *
      * @var boolean
@@ -196,7 +203,7 @@ class ModalAjax extends Modal
         }
 
         if ($this->pjaxContainer) {
-            $expression[] = "$.pjax.reload({container : '$this->pjaxContainer'});";
+            $expression[] = "$.pjax.reload({container : '$this->pjaxContainer', timeout : $this->pjaxTimeout });";
         }
 
         $script = implode("\r\n", $expression);
