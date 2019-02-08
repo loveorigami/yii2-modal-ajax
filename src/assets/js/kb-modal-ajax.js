@@ -67,6 +67,9 @@
                     jQuery(self.element).off('submit').on('submit', this.formSubmit.bind(this));
                 }
                 jQuery(self.element).triggerHandler('kbModalShow', [data, status, xhr, this.selector]);
+            },
+            complete: function (xhr, textStatus) {
+                jQuery(self.element).triggerHandler('kbModalShowComplete', [xhr, textStatus]);
             }
         });
     };
@@ -173,6 +176,9 @@
                         status = false;
                     }
                     jQuery(self.element).triggerHandler('kbModalSubmit', [data, status, xhr, this.selector]);
+                },
+                complete: function (xhr, textStatus) {
+                    jQuery(self.element).triggerHandler('kbModalSubmitComplete', [xhr, textStatus]);
                 }
             });
         } else {
@@ -193,6 +199,9 @@
                         status = false;
                     }
                     jQuery(self.element).triggerHandler('kbModalSubmit', [data, status, xhr, this.selector]);
+                },
+                complete: function (xhr, textStatus) {
+                    jQuery(self.element).triggerHandler('kbModalSubmitComplete', [xhr, textStatus]);
                 }
             });
         }

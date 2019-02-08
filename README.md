@@ -137,9 +137,24 @@ echo ModalAjax::widget([
                     $(this).modal('toggle');
                 }
             }
+        "),
+        ModalAjax::EVENT_MODAL_SHOW_COMPLETE => new \yii\web\JsExpression("
+            function(event, xhr, textStatus) {
+                if (xhr.status == 403) {
+                    $(this).modal('toggle');
+                    alert('You do not have permission to execute this action');
+                }
+            }
+        "),
+        ModalAjax::EVENT_MODAL_SUBMIT_COMPLETE => new \yii\web\JsExpression("
+            function(event, xhr, textStatus) {
+                if (xhr.status == 403) {
+                    $(this).modal('toggle');
+                    alert('You do not have permission to execute this action');
+                }
+            }
         ")
     ]
-
 ]);
 
 //Grid example with data-scenario
@@ -194,6 +209,18 @@ $('#createCompany').on('kbModalShow', function(event, data, status, xhr, selecto
 });
 ```
 
+### `kbModalShowComplete` (ModalAjax::EVENT_MODAL_SHOW_COMPLETE)
+This event is triggered when ajax call is completed when the form is loaded. Additional parameters available 
+with this event are:
+- `xhr`: _XMLHttpRequest_, the jQuery XML Http Request object used for this transaction.
+- `textStatus`: _string_, the jQuery AJAX success text status for this transaction.
+
+```js
+$('#createCompany').on('kbModalShowComplete', function(event, xhr, textStatus) {
+    console.log('kbModalShowComplete');
+});
+```
+
 ### `kbModalBeforeSubmit` (ModalAjax::EVENT_BEFORE_SUBMIT)
 This event is triggered right before the form is submitted. Additional parameters available with this event are:
 - `xhr`: _XMLHttpRequest_, the jQuery XML Http Request object used for this transaction.
@@ -216,5 +243,17 @@ This event is triggered after the form is successful submitted. Additional param
 $('#createCompany').on('kbModalSubmit', function(event, data, status, xhr, selector) {
     console.log('kbModalSubmit');
     // You may call pjax reloads here
+});
+```
+
+### `kbModalSubmitComplete` (ModalAjax::EVENT_MODAL_SUBMIT_COMPLETE)
+This event is triggered when ajax call is completed when the form is submitted. Additional parameters available 
+with this event are:
+- `xhr`: _XMLHttpRequest_, the jQuery XML Http Request object used for this transaction.
+- `textStatus`: _string_, the jQuery AJAX success text status for this transaction.
+
+```js
+$('#createCompany').on('kbModalSubmitComplete', function(event, xhr, textStatus) {
+    console.log('kbModalSubmitComplete');
 });
 ```
