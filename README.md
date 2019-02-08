@@ -216,7 +216,7 @@ with this event are:
 - `textStatus`: _string_, the jQuery AJAX success text status for this transaction.
 
 ```js
-$('#createCompany').on('kbModalShowComplete', function(event, xhr, settings) {
+$('#createCompany').on('kbModalShowComplete', function(event, xhr, textStatus) {
     console.log('kbModalShowComplete');
 });
 ```
@@ -253,7 +253,7 @@ with this event are:
 - `textStatus`: _string_, the jQuery AJAX success text status for this transaction.
 
 ```js
-$('#createCompany').on('kbModalSubmitComplete', function(event, xhr, settings) {
+$('#createCompany').on('kbModalSubmitComplete', function(event, xhr, textStatus) {
     console.log('kbModalSubmitComplete');
 });
 ```
