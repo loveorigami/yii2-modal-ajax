@@ -27,6 +27,8 @@ class ModalAjax extends Modal
     const EVENT_MODAL_SHOW = 'kbModalShow';
     const EVENT_BEFORE_SUBMIT = 'kbModalBeforeSubmit';
     const EVENT_MODAL_SUBMIT = 'kbModalSubmit';
+    const EVENT_MODAL_SUBMIT_COMPLETE = 'kbModalSubmitComplete';
+    const EVENT_MODAL_SHOW_COMPLETE = 'kbModalShowComplete';
 
     /**
      * @var array
