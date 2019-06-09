@@ -45,6 +45,9 @@
      * modal is shown
      */
     ModalAjax.prototype.shown = function () {
+        if (event.target != this.element) {
+            return;
+        }
 
         var self = this;
 
