@@ -44,7 +44,7 @@
      * Requests the content of the modal and injects it, called after the
      * modal is shown
      */
-    ModalAjax.prototype.shown = function () {
+    ModalAjax.prototype.shown = function (event) {
         if (event.target != this.element) {
             return;
         }
