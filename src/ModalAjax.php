@@ -3,7 +3,7 @@
 namespace lo\widgets\modal;
 
 use yii\base\InvalidConfigException;
-use yii\bootstrap\Modal;
+use yii\bootstrap4\Modal;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\JsExpression;
@@ -108,7 +108,7 @@ class ModalAjax extends Modal
     public function init()
     {
         parent::init();
-
+        $this->header = $this->title;
         if ($this->selector) {
             $this->mode = self::MODE_MULTI;
         }
