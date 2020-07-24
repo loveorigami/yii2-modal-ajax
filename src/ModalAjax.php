@@ -76,6 +76,8 @@ class ModalAjax extends Modal
      * @var boolean
      */
     public $autoClose = false;
+    
+    public $header;
 
     /**
      * @var string
